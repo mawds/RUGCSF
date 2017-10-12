@@ -12,5 +12,41 @@ output:
       controls: false
 ---
 
-# Slide 1
+## Structure
+
+[](Key message - waiting for code to run is a pain.  How do we 
+make it quicker?)
+
+
+* Two parts:
+  	* Optimising code (may not _need_ to go down HPC route)
+	* HPC at UoM
+
+* HPC facilities at UoM
+	* ref George's talk on iCSF
+	* Focus on using the CSF; batch jobs
+
+* MS R Open - may not need to go down the HPC route
+
+* Code optimisation
+
+## Picture of people getting bored waiting for code to run
+
+##  Optimising code
+
+* Most PCs have 2, 4 or 8 cores.  
+  	* R will only use one of these by default
+* Two approaches to using more of them:
+  	* Explicitly parallise code
+	* Use a version of R with libraries that use > 1 core
+
+## Microsoft R Open
+
+* [MS R Open](https://mran.microsoft.com/open/) uses optimised versions of
+  [BLAS and LAPACK](https://software.intel.com/en-us/mkl).
+  	* Typically quicker even on a single thread
+	* Even quicker if we use multiple threads
+* Speed up will depend on _what_ you're doing
+  	* Linear algebra 
+
 
