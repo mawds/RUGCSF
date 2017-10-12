@@ -1,0 +1,3 @@
+[submodule "version.compare"]
+	path = version.compare
+	url = git@github.com:andrie/version.compare.git
