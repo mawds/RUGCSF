@@ -1,0 +1,16 @@
+---
+title: "High Performance Computing with R"
+author: "David Mawdsley, Pen Richardson, George Leaver"
+date: "6 November 2017<p><img src='http://assets.manchester.ac.uk/logos/hi-res/TAB_UNI_MAIN_logo/White_backgrounds/TAB_col_white_background.png' style='border:0px solid black' width='50%'></p>"
+output: 
+  revealjs::revealjs_presentation:
+    transition: fade
+    theme: solarize
+    fig_height: 6
+    self_contained: true
+    reveal_options:
+      controls: false
+---
+
+# Slide 1
+
