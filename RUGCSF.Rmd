@@ -29,6 +29,7 @@ make it quicker?)
 * MS R Open - may not need to go down the HPC route
 
 * Code optimisation
+* Assumption - bottleneck is CPU.  Not RAM or IO
 
 ## Picture of people getting bored waiting for code to run
 
@@ -48,5 +49,36 @@ make it quicker?)
 	* Even quicker if we use multiple threads
 * Speed up will depend on _what_ you're doing
   	* Linear algebra 
+
+## Show benchmark figures
+
+* Show benchmark figures from https://mran.microsoft.com/documents/rro/multithread/#mt-bench or generate own (compare Windows/Linux)
+
+## Compatibility between standard R and Microsoft R open
+
+* Version lags (slightly) behind standard R
+* ["100% compatible with"](https://mran.microsoft.com/open/) standard R
+* Uses its own version of [CRAN](https://cran.r-project.org/); MRAN
+  	* Frozen snapshot  of CRAN for each release of MS R Open
+	* Can install CRAN packages with `repos="URL"` option
+	* `checkpoint` library lets you use packages at arbitrary snapshot dates
+
+## Summary slide
+
+* Potentially a really easy win
+
+
+## The `parallel` package
+
+Benchmark / simple example of this
+
+
+## The CSF
+
+* [George Leaver talked about the iCSF in March](http://ri.itservices.manchester.ac.uk/course/herc/icsf.pdf)
+  	* Interactive facility
+* We'll focus on the [CSF](http://ri.itservices.manchester.ac.uk/csf/)
+  	* "Traditional" batch system
+	* Write a job script, submit it, wait for it to run
 
 

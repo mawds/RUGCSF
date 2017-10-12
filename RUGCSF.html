@@ -472,7 +472,82 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li>Focus on using the CSF; batch jobs</li>
 </ul></li>
 <li><p>MS R Open - may not need to go down the HPC route</p></li>
-<li><p>Code optimisation</p></li>
+<li>Code optimisation</li>
+<li><p>Assumption - bottleneck is CPU. Not RAM or IO</p></li>
+</ul>
+</section>
+<section id="picture-of-people-getting-bored-waiting-for-code-to-run" class="slide level2">
+<h1>Picture of people getting bored waiting for code to run</h1>
+</section>
+<section id="optimising-code" class="slide level2">
+<h1>Optimising code</h1>
+<ul>
+<li>Most PCs have 2, 4 or 8 cores.
+<ul>
+<li>R will only use one of these by default</li>
+</ul></li>
+<li>Two approaches to using more of them:
+<ul>
+<li>Explicitly parallise code</li>
+<li>Use a version of R with libraries that use &gt; 1 core</li>
+</ul></li>
+</ul>
+</section>
+<section id="microsoft-r-open" class="slide level2">
+<h1>Microsoft R Open</h1>
+<ul>
+<li><a href="https://mran.microsoft.com/open/">MS R Open</a> uses optimised versions of <a href="https://software.intel.com/en-us/mkl">BLAS and LAPACK</a>.
+<ul>
+<li>Typically quicker even on a single thread</li>
+<li>Even quicker if we use multiple threads</li>
+</ul></li>
+<li>Speed up will depend on <em>what</em> you’re doing
+<ul>
+<li>Linear algebra</li>
+</ul></li>
+</ul>
+</section>
+<section id="show-benchmark-figures" class="slide level2">
+<h1>Show benchmark figures</h1>
+<ul>
+<li>Show benchmark figures from <a href="https://mran.microsoft.com/documents/rro/multithread/#mt-bench" class="uri">https://mran.microsoft.com/documents/rro/multithread/#mt-bench</a> or generate own (compare Windows/Linux)</li>
+</ul>
+</section>
+<section id="compatibility-between-standard-r-and-microsoft-r-open" class="slide level2">
+<h1>Compatibility between standard R and Microsoft R open</h1>
+<ul>
+<li>Version lags (slightly) behind standard R</li>
+<li><a href="https://mran.microsoft.com/open/">“100% compatible with”</a> standard R</li>
+<li>Uses its own version of <a href="https://cran.r-project.org/">CRAN</a>; MRAN
+<ul>
+<li>Frozen snapshot of CRAN for each release of MS R Open</li>
+<li>Can install CRAN packages with <code>repos=&quot;URL&quot;</code> option</li>
+<li><code>checkpoint</code> library lets you use packages at arbitrary snapshot dates</li>
+</ul></li>
+</ul>
+</section>
+<section id="summary-slide" class="slide level2">
+<h1>Summary slide</h1>
+<ul>
+<li>Potentially a really easy win</li>
+</ul>
+</section>
+<section id="the-parallel-package" class="slide level2">
+<h1>The <code>parallel</code> package</h1>
+<p>Benchmark / simple example of this</p>
+</section>
+<section id="the-csf" class="slide level2">
+<h1>The CSF</h1>
+<ul>
+<li><a href="http://ri.itservices.manchester.ac.uk/course/herc/icsf.pdf">George Leaver talked about the iCSF in March</a>
+<ul>
+<li>Interactive facility</li>
+</ul></li>
+<li>We’ll focus on the <a href="http://ri.itservices.manchester.ac.uk/csf/">CSF</a>
+<ul>
+<li>“Traditional” batch system</li>
+<li>Write a job script, submit it, wait for it to run</li>
+</ul></li>
 </ul>
 </section>
     </div>
