@@ -1,0 +1,172 @@
+---
+title: "High Performance Computing with R, without parallel"
+author: "David Mawdsley &  Pen Richardson"
+date: "6 November 2017<p><img src='http://assets.manchester.ac.uk/logos/hi-res/TAB_UNI_MAIN_logo/White_backgrounds/TAB_col_white_background.png' style='border:0px solid black' width='50%'></p>"
+output: 
+  revealjs::revealjs_presentation:
+    transition: fade
+    theme: solarize
+    fig_height: 6
+    self_contained: true
+    reveal_options:
+      controls: false
+---
+
+## Introduction
+```{r setup, echo = FALSE, messages = FALSE}
+
+suppressMessages(library("tidyverse"))
+suppressMessages(library("stringr"))
+```
+
+[](Key message - waiting for code to run is a pain.  How do we 
+make it quicker?)
+
+* Waiting for your R code to run is a pain
+* We're going to talk about ways to make it faster
+    * Without editing your code
+
+* Two approaches
+* Two parts:
+  	* Faster R(may not _need_ to go down HPC route)
+	* HPC at UoM
+
+* HPC facilities at UoM
+	* ref George's talk on iCSF
+	* Focus on using the CSF; batch jobs
+
+* MS R Open - may not need to go down the HPC route
+
+* Assumption - bottleneck is CPU.  Not RAM or IO
+
+## Optimising code
+
+* Problem specific
+* Profiling is a good starting point
+  * [Built into R studio](https://rstudio.github.io/profvis/)
+
+##  Optimising *how* your code runs
+
+* Most PCs have 2, 4 or 8 cores.  
+  	* R will only use one of these by default
+* Two approaches to using more of them:
+  	* Explicitly parallise code
+		* Not covering this in this talk
+	* *Use a version of R with libraries that use > 1 core*
+
+## Microsoft R Open
+
+* [MS R Open](https://mran.microsoft.com/open/) uses optimised versions of
+  [BLAS and LAPACK](https://software.intel.com/en-us/mkl).
+  	* Typically quicker even on a single thread
+	* Even quicker if we use multiple threads
+* Speed up will depend on _what_ you're doing
+  	* Linear algebra 
+
+## Benchmarking R
+
+Used the Revobenchmark in the [version.compare](https://github.com/andrie/version.compare) package:
+
+  * Matrix multiplication ($1000 \times 5000$)
+  * Cholesky factorisation
+  * QR Decomposition
+  * Singular value decomposition
+  * PCA
+  * Linear Discriminant Analysis 
+
+## Results:
+
+```{r, echo = FALSE}
+source("testthreads/loadJobStats.R")
+
+LaptopResults <- bind_rows(loadJobStats("testthreads/LaptopLinuxMSR.rda"),
+                        loadJobStats("testthreads/LaptopLinuxStandardR.rda"))
+
+# ggplot(LaptopResults, aes(x = threads, y = time, colour = task)) + geom_point() + 
+#   geom_line() + facet_wrap(~ infile) 
+
+LaptopResults %>% filter(RProvider == "Microsoft") %>%
+  ggplot(aes(x = quasithread, y = time, colour = task)) + geom_point() + geom_line() + 
+  coord_cartesian(xlim = c(0, 4)) + geom_point(data = LaptopResults %>%  filter(RProvider != "Microsoft"),
+                                               aes( x= quasithread)) +
+  labs(x = "Threads", y = "Time (seconds)",  colour = "Task")
+
+```
+
+## Results (2) 
+
+```{r, echo = FALSE}
+Basetimes <- LaptopResults %>% 
+  filter(RProvider != "Microsoft") %>%
+  rename(basetime = time) %>% 
+  select(task, basetime)
+
+LaptopResults %>% 
+  filter(RProvider == "Microsoft") %>% 
+  inner_join(Basetimes, by = "task") %>% 
+  mutate(speedup = basetime / time)  %>% 
+  ggplot(aes(x = threads, y=speedup, colour=task)) + geom_point() + geom_line() +
+  labs(x = "Threads", y = "Speedup wrt standard R",  colour = "Task")
+  
+  
+```
+
+## Compatibility between standard R and Microsoft R open
+
+* Version lags (slightly) behind standard R
+* ["100% compatible with"](https://mran.microsoft.com/open/) standard R
+* Uses its own version of [CRAN](https://cran.r-project.org/); MRAN
+  	* Frozen snapshot  of CRAN for each release of MS R Open
+	* Can install CRAN packages with `repos="URL"` option
+	* `checkpoint` library lets you use packages at arbitrary snapshot dates
+
+## What if this isn't enough?
+
+![][jaws]
+
+[jaws]: https://forums.unrealengine.com/attachment.php?attachmentid=27895&d=1425367123 "Jaws"
+
+## The CSF
+
+* [George Leaver talked about the iCSF in March](http://ri.itservices.manchester.ac.uk/course/herc/icsf.pdf)
+  	* Interactive facility
+* We'll focus on the [CSF](http://ri.itservices.manchester.ac.uk/csf/)
+  	* "Traditional" batch system
+	* Write a job script, submit it, wait for it to run
+* Aimed at research groups who have contributed to it
+  	* Limited free at the point of use availability
+* Has [several versions of standard R and MS R Open](http://ri.itservices.manchester.ac.uk/csf-apps/software/applications/r/) installed.
+
+## Pen's slides
+
+* Applying for an account
+* Training course
+* Using modules(?? - too much detail?)
+* Support
+* (Possibly job arrays? - too much detail?)
+* etc. 
+
+## Using the CSF demo
+
+One of us demos logging on, a job script and submitting it
+
+
+## `parallel` library and MS R Open
+
+* Take care not to "double parallise"
+  	* Each processes spawned by `parallel` will spawn its own threads
+	* Experimentation will be needed to find the best balance between two approaches
+
+
+## Conclusions
+
+* Switching over to MS R Open can offer big speedups
+	* No modification of code needed
+	* Though some care needed with package versions
+* The CSF is ideal for bigger jobs
+
+
+
+
+
+

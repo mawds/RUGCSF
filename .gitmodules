@@ -1,0 +1,3 @@
+[submodule "version.compare"]
+	path = version.compare
+	url = https://github.com/mawds/version.compare.git

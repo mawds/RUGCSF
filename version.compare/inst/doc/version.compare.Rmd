@@ -1,0 +1,73 @@
+---
+title: "Run MKL benchmarks"
+author: "Andrie de Vries"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Run MKL benchmarks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+# Running the tests
+
+The package allows you to run benchmark tests on several different installations of R on the same machine.
+
+The benchmarks are an adaptation of [Simon Urbanek's benchmarks](http://r.research.att.com/benchmarks/R-benchmark-25.R), and have been included in the function `RevoMultiBenchmark()` in the `version.compare` package.
+
+```{r}
+library("version.compare")
+library("knitr")
+scale.factor <- 1.0
+```
+
+This vignette scales the test sets down to `r sprintf("%1.0f%%", 100*scale.factor)` of standard size, to speed up the process for sake of illustration. For a full-scale test, adjust the tests by setting `scale.factor <- 1`.
+
+```{r benchmark, echo=TRUE}
+
+r <- switch(Sys.info()[["sysname"]],
+            Linux = {
+              rscript <- findRscript()
+              
+              rv <- version.time(rscript, {
+                as.character(getRversion())
+              })
+              idx <- which(unlist(rv$results) == "3.3.3")
+              rscript[idx]
+              
+            },
+            Windows = findRscript(version = "*x64"
+            )
+)
+test.results <- RevoMultiBenchmark(rVersions = r, 
+                                   threads = c(1, 4, 8), 
+                                   scale.factor = scale.factor)
+```
+
+```{r compare-results, eval = FALSE}
+kable(test.results)
+plot(test.results, theme_size = 8, main = "Elapsed time")
+```
+
+```{r performance-speed-up, eval = FALSE}
+kable(urbanekPerformance(test.results), digits = 2)
+plot(urbanekPerformance(test.results), theme_size = 8, main = "Relative Performance")
+```
+
+# Compare results
+
+## Elapsed time (seconds)
+
+The package  captures the total elapsed time for each of the benchmark tests. This makes it easy to compare the total elapsed time (in seconds).
+
+
+```{r compare-results, echo = FALSE, fig.width=6, fig.height=3, out.width="800px", dpi=1200, keep=TRUE}
+```
+
+## Relative performance
+
+You may also want to compare relative performance. To do this, divide each column by the longest-running test. This means scaling is relative to the version of R that has the longest elapsed time.
+
+
+```{r performance-speed-up, echo = FALSE, fig.width=6, fig.height=3, out.width="800px", dpi=1200}
+```
