@@ -22,9 +22,13 @@ suppressMessages(library("stringr"))
 [](Key message - waiting for code to run is a pain.  How do we 
 make it quicker?)
 
+* Waiting for your R code to run is a pain
+* We're going to talk about ways to make it faster
+    * Without editing your code
 
+* Two approaches
 * Two parts:
-  	* Optimising code (may not _need_ to go down HPC route)
+  	* Faster R(may not _need_ to go down HPC route)
 	* HPC at UoM
 
 * HPC facilities at UoM
@@ -35,9 +39,13 @@ make it quicker?)
 
 * Assumption - bottleneck is CPU.  Not RAM or IO
 
-## Picture of people getting bored waiting for code to run
+## Optimising code
 
-##  Optimising code
+* Problem specific
+* Profiling is a good starting point
+  * [Built into R studio](https://rstudio.github.io/profvis/)
+
+##  Optimising *how* your code runs
 
 * Most PCs have 2, 4 or 8 cores.  
   	* R will only use one of these by default
@@ -112,10 +120,11 @@ LaptopResults %>%
 	* Can install CRAN packages with `repos="URL"` option
 	* `checkpoint` library lets you use packages at arbitrary snapshot dates
 
-## Summary slide
+## What if this isn't enough?
 
-* Potentially a really easy win
+![][jaws]
 
+[jaws]: https://forums.unrealengine.com/attachment.php?attachmentid=27895&d=1425367123 "Jaws"
 
 ## The CSF
 
@@ -131,13 +140,15 @@ LaptopResults %>%
 ## Pen's slides
 
 * Applying for an account
-* Using modules
+* Training course
+* Using modules(?? - too much detail?)
 * Support
-* (Possibly job arrays - keeps the paralleling out of R (see slide below)
+* (Possibly job arrays? - too much detail?)
 * etc. 
 
-(It'd be good to do a quick demo here - logging on, submitting a job;
-could use the job script I used for the benchmarking)
+## Using the CSF demo
+
+One of us demos logging on, a job script and submitting it
 
 
 ## `parallel` library and MS R Open
@@ -152,7 +163,7 @@ could use the job script I used for the benchmarking)
 * Switching over to MS R Open can offer big speedups
 	* No modification of code needed
 	* Though some care needed with package versions
-* CSF lets us handle bigger jobs
+* The CSF is ideal for bigger jobs
 
 
 
