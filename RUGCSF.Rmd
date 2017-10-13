@@ -1,6 +1,6 @@
 ---
-title: "High Performance Computing with R"
-author: "David Mawdsley, Pen Richardson, George Leaver"
+title: "High Performance Computing with R, without parallel"
+author: "David Mawdsley &  Pen Richardson"
 date: "6 November 2017<p><img src='http://assets.manchester.ac.uk/logos/hi-res/TAB_UNI_MAIN_logo/White_backgrounds/TAB_col_white_background.png' style='border:0px solid black' width='50%'></p>"
 output: 
   revealjs::revealjs_presentation:
@@ -12,7 +12,12 @@ output:
       controls: false
 ---
 
-## Structure
+## Introduction
+```{r setup, echo = FALSE, messages = FALSE}
+
+suppressMessages(library("tidyverse"))
+suppressMessages(library("stringr"))
+```
 
 [](Key message - waiting for code to run is a pain.  How do we 
 make it quicker?)
@@ -28,7 +33,6 @@ make it quicker?)
 
 * MS R Open - may not need to go down the HPC route
 
-* Code optimisation
 * Assumption - bottleneck is CPU.  Not RAM or IO
 
 ## Picture of people getting bored waiting for code to run
@@ -39,7 +43,8 @@ make it quicker?)
   	* R will only use one of these by default
 * Two approaches to using more of them:
   	* Explicitly parallise code
-	* Use a version of R with libraries that use > 1 core
+		* Not covering this in this talk
+	* *Use a version of R with libraries that use > 1 core*
 
 ## Microsoft R Open
 
@@ -50,9 +55,53 @@ make it quicker?)
 * Speed up will depend on _what_ you're doing
   	* Linear algebra 
 
-## Show benchmark figures
+## Benchmarking R
 
-* Show benchmark figures from https://mran.microsoft.com/documents/rro/multithread/#mt-bench or generate own (compare Windows/Linux)
+Used the Revobenchmark in the [version.compare](https://github.com/andrie/version.compare) package:
+
+  * Matrix multiplication ($1000 \times 5000$)
+  * Cholesky factorisation
+  * QR Decomposition
+  * Singular value decomposition
+  * PCA
+  * Linear Discriminant Analysis 
+
+## Results:
+
+```{r, echo = FALSE}
+source("testthreads/loadJobStats.R")
+
+LaptopResults <- bind_rows(loadJobStats("testthreads/LaptopLinuxMSR.rda"),
+                        loadJobStats("testthreads/LaptopLinuxStandardR.rda"))
+
+# ggplot(LaptopResults, aes(x = threads, y = time, colour = task)) + geom_point() + 
+#   geom_line() + facet_wrap(~ infile) 
+
+LaptopResults %>% filter(RProvider == "Microsoft") %>%
+  ggplot(aes(x = quasithread, y = time, colour = task)) + geom_point() + geom_line() + 
+  coord_cartesian(xlim = c(0, 4)) + geom_point(data = LaptopResults %>%  filter(RProvider != "Microsoft"),
+                                               aes( x= quasithread)) +
+  labs(x = "Threads", y = "Time (seconds)",  colour = "Task")
+
+```
+
+## Results (2) 
+
+```{r, echo = FALSE}
+Basetimes <- LaptopResults %>% 
+  filter(RProvider != "Microsoft") %>%
+  rename(basetime = time) %>% 
+  select(task, basetime)
+
+LaptopResults %>% 
+  filter(RProvider == "Microsoft") %>% 
+  inner_join(Basetimes, by = "task") %>% 
+  mutate(speedup = basetime / time)  %>% 
+  ggplot(aes(x = threads, y=speedup, colour=task)) + geom_point() + geom_line() +
+  labs(x = "Threads", y = "Speedup wrt standard R",  colour = "Task")
+  
+  
+```
 
 ## Compatibility between standard R and Microsoft R open
 
@@ -68,11 +117,6 @@ make it quicker?)
 * Potentially a really easy win
 
 
-## The `parallel` package
-
-Benchmark / simple example of this
-
-
 ## The CSF
 
 * [George Leaver talked about the iCSF in March](http://ri.itservices.manchester.ac.uk/course/herc/icsf.pdf)
@@ -80,5 +124,38 @@ Benchmark / simple example of this
 * We'll focus on the [CSF](http://ri.itservices.manchester.ac.uk/csf/)
   	* "Traditional" batch system
 	* Write a job script, submit it, wait for it to run
+* Aimed at research groups who have contributed to it
+  	* Limited free at the point of use availability
+* Has [several versions of standard R and MS R Open](http://ri.itservices.manchester.ac.uk/csf-apps/software/applications/r/) installed.
+
+## Pen's slides
+
+* Applying for an account
+* Using modules
+* Support
+* (Possibly job arrays - keeps the paralleling out of R (see slide below)
+* etc. 
+
+(It'd be good to do a quick demo here - logging on, submitting a job;
+could use the job script I used for the benchmarking)
+
+
+## `parallel` library and MS R Open
+
+* Take care not to "double parallise"
+  	* Each processes spawned by `parallel` will spawn its own threads
+	* Experimentation will be needed to find the best balance between two approaches
+
+
+## Conclusions
+
+* Switching over to MS R Open can offer big speedups
+	* No modification of code needed
+	* Though some care needed with package versions
+* CSF lets us handle bigger jobs
+
+
+
+
 
 
