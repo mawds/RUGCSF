@@ -1,5 +1,5 @@
 ---
-title: "High Performance Computing with R, without parallel"
+title: "High Performance Computing with R, without rewriting your code"
 author: "David Mawdsley &  Pen Richardson"
 date: "6 November 2017<p><img src='http://assets.manchester.ac.uk/logos/hi-res/TAB_UNI_MAIN_logo/White_backgrounds/TAB_col_white_background.png' style='border:0px solid black' width='50%'></p>"
 output: 
@@ -26,18 +26,9 @@ make it quicker?)
 * We're going to talk about ways to make it faster
     * Without editing your code
 
-* Two approaches
-* Two parts:
-  	* Faster R(may not _need_ to go down HPC route)
+* Two approaches:
+  	* Faster R
 	* HPC at UoM
-
-* HPC facilities at UoM
-	* ref George's talk on iCSF
-	* Focus on using the CSF; batch jobs
-
-* MS R Open - may not need to go down the HPC route
-
-* Assumption - bottleneck is CPU.  Not RAM or IO
 
 ## Optimising code
 
@@ -67,7 +58,7 @@ make it quicker?)
 
 Used the Revobenchmark in the [version.compare](https://github.com/andrie/version.compare) package:
 
-  * Matrix multiplication ($1000 \times 5000$)
+  * Matrix multiplication 
   * Cholesky factorisation
   * QR Decomposition
   * Singular value decomposition
@@ -151,7 +142,7 @@ LaptopResults %>%
 One of us demos logging on, a job script and submitting it
 
 
-## `parallel` library and MS R Open
+## The parallel library and MS R Open
 
 * Take care not to "double parallise"
   	* Each processes spawned by `parallel` will spawn its own threads

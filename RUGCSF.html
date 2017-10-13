@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="David Mawdsley &amp; Pen Richardson" />
-  <title>High Performance Computing with R, without parallel</title>
+  <title>High Performance Computing with R, without rewriting your code</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -449,7 +449,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <div class="slides">
 
 <section>
-    <h1 class="title">High Performance Computing with R, without parallel</h1>
+    <h1 class="title">High Performance Computing with R, without rewriting your code</h1>
     <h2 class="author">David Mawdsley &amp; Pen Richardson</h2>
     <h3 class="date">6 November 2017
 <p>
@@ -466,19 +466,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li>Without editing your code</li>
 </ul></li>
-<li>Two approaches</li>
-<li>Two parts:
+<li>Two approaches:
 <ul>
-<li>Faster R(may not <em>need</em> to go down HPC route)</li>
+<li>Faster R</li>
 <li>HPC at UoM</li>
 </ul></li>
-<li>HPC facilities at UoM
-<ul>
-<li>ref George’s talk on iCSF</li>
-<li>Focus on using the CSF; batch jobs</li>
-</ul></li>
-<li><p>MS R Open - may not need to go down the HPC route</p></li>
-<li><p>Assumption - bottleneck is CPU. Not RAM or IO</p></li>
 </ul>
 </section>
 <section id="optimising-code" class="slide level2">
@@ -524,7 +516,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h1>Benchmarking R</h1>
 <p>Used the Revobenchmark in the <a href="https://github.com/andrie/version.compare">version.compare</a> package:</p>
 <ul>
-<li>Matrix multiplication (<span class="math inline">\(1000 \times 5000\)</span>)</li>
+<li>Matrix multiplication</li>
 <li>Cholesky factorisation</li>
 <li>QR Decomposition</li>
 <li>Singular value decomposition</li>
@@ -591,8 +583,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h1>Using the CSF demo</h1>
 <p>One of us demos logging on, a job script and submitting it</p>
 </section>
-<section id="parallel-library-and-ms-r-open" class="slide level2">
-<h1><code>parallel</code> library and MS R Open</h1>
+<section id="the-parallel-library-and-ms-r-open" class="slide level2">
+<h1>The parallel library and MS R Open</h1>
 <ul>
 <li>Take care not to “double parallise”
 <ul>
