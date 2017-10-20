@@ -76,10 +76,9 @@ LaptopResults <- bind_rows(loadJobStats("testthreads/LaptopLinuxMSR.rda"),
 # ggplot(LaptopResults, aes(x = threads, y = time, colour = task)) + geom_point() + 
 #   geom_line() + facet_wrap(~ infile) 
 
-LaptopResults %>% filter(RProvider == "Microsoft") %>%
-  ggplot(aes(x = quasithread, y = time, colour = task)) + geom_point() + geom_line() + 
-  coord_cartesian(xlim = c(0, 4)) + geom_point(data = LaptopResults %>%  filter(RProvider != "Microsoft"),
-                                               aes( x = quasithread)) +
+LaptopResults %>% 
+  ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + geom_line() + 
+  coord_cartesian(xlim = c(0, 4)) +
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "Laptop; standard vs MSR")
 
@@ -198,7 +197,7 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 	* No modification of code needed
 	* Though some care needed with package versions
 * The CSF is ideal for bigger jobs
-  * Limit threads used for performance and scheduling reasons
+  * Limit threads used for performance and scheduling reason
 
 ## Getting help/training
 
