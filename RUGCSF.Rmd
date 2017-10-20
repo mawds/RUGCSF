@@ -65,7 +65,7 @@ Used the Revobenchmark in the [version.compare](https://github.com/andrie/versio
   * PCA
   * Linear Discriminant Analysis 
 
-## Results:
+## 
 
 ```{r, echo = FALSE}
 source("testthreads/loadJobStats.R")
@@ -79,13 +79,13 @@ LaptopResults <- bind_rows(loadJobStats("testthreads/LaptopLinuxMSR.rda"),
 LaptopResults %>% filter(RProvider == "Microsoft") %>%
   ggplot(aes(x = quasithread, y = time, colour = task)) + geom_point() + geom_line() + 
   coord_cartesian(xlim = c(0, 4)) + geom_point(data = LaptopResults %>%  filter(RProvider != "Microsoft"),
-                                               aes( x= quasithread)) +
+                                               aes( x = quasithread)) +
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "Laptop; standard vs MSR")
 
 ```
 
-## Results (2) 
+## 
 
 ```{r, echo = FALSE}
 Basetimes <- LaptopResults %>% 
@@ -143,6 +143,47 @@ LaptopResults %>%
 One of us demos logging on, a job script and submitting it
 
 
+## 
+
+```{r, echo = FALSE, warning = FALSE}
+
+
+allResults <- bind_rows(
+                        loadJobStats("./testthreads/csfIvybridge.rda"),
+                         loadJobStats("./testthreads/csfSandybridge.rda"),
+                         loadJobStats("./testthreads/csfHaswell.rda"),
+                         loadJobStats("./testthreads/csfBroadwell.rda"),
+                         loadJobStats("./testthreads/csfWestmere.rda"))
+
+allResults %>%  filter(infile != "csfWestmere.rda") %>% 
+  ggplot(aes(x = threads, y = time, colour = task)) + geom_point() + 
+  geom_line() + facet_wrap(~ infile) + scale_x_continuous(limits = c(1,8)) +
+  scale_y_continuous(limits = c(0,15)) + 
+  labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
+       title = "CSF architectures")
+
+```
+
+## 
+
+```{r, echo = FALSE, warning = FALSE}
+
+
+allResults %>%  filter(infile != "csfWestmere.rda") %>% 
+  ggplot(aes(x = threads, y = time, colour = task)) + geom_point() + 
+  geom_line() + facet_wrap(~ infile) +
+  labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
+       title = "CSF architectures")
+
+```
+
+## Setting the number of threads
+
+* Unclear why performance suffers if all cores used
+* Little benefit in > 8 cores anyway
+  * `setMKLthreads(<n>)` limits the number of threads used
+  * Defaults to whole node
+  * Less queuing time; easier to schedule jobs
 
 ## The parallel library and MS R Open
 
@@ -157,6 +198,7 @@ One of us demos logging on, a job script and submitting it
 	* No modification of code needed
 	* Though some care needed with package versions
 * The CSF is ideal for bigger jobs
+  * Limit threads used for performance and scheduling reasons
 
 ## Getting help/training
 

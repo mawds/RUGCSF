@@ -10,7 +10,7 @@ loadJobStats <- function(infile){
     mutate(threads = as.numeric(str_match(version, "\\.(\\d+)\\.thread")[,2])) %>% 
     mutate(RProvider = if_else(grepl("Microsoft", version), "Microsoft", "Standard")) %>% 
     mutate(quasithread = if_else(RProvider == "Standard", 0, threads)) %>% 
-    mutate(infile = UQ(infile))
+    mutate(infile = basename(UQ(infile)))
   
   return(tidyresults)
   
