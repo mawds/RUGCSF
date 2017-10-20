@@ -34,7 +34,7 @@ make it quicker?)
 
 * Problem specific
 * Profiling is a good starting point
-  * [Built into R studio](https://rstudio.github.io/profvis/)
+	  * [Built into R studio](https://rstudio.github.io/profvis/)
 
 ##  Optimising *how* your code runs
 
@@ -80,7 +80,8 @@ LaptopResults %>% filter(RProvider == "Microsoft") %>%
   ggplot(aes(x = quasithread, y = time, colour = task)) + geom_point() + geom_line() + 
   coord_cartesian(xlim = c(0, 4)) + geom_point(data = LaptopResults %>%  filter(RProvider != "Microsoft"),
                                                aes( x= quasithread)) +
-  labs(x = "Threads", y = "Time (seconds)",  colour = "Task")
+  labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
+       title = "Laptop; standard vs MSR")
 
 ```
 
@@ -97,8 +98,8 @@ LaptopResults %>%
   inner_join(Basetimes, by = "task") %>% 
   mutate(speedup = basetime / time)  %>% 
   ggplot(aes(x = threads, y=speedup, colour=task)) + geom_point() + geom_line() +
-  labs(x = "Threads", y = "Speedup wrt standard R",  colour = "Task")
-  
+  labs(x = "Threads", y = "Speedup wrt standard R",  colour = "Task",
+       title = "Laptop; speedup over standard R")
   
 ```
 
@@ -142,6 +143,7 @@ LaptopResults %>%
 One of us demos logging on, a job script and submitting it
 
 
+
 ## The parallel library and MS R Open
 
 * Take care not to "double parallise"
@@ -155,6 +157,16 @@ One of us demos logging on, a job script and submitting it
 	* No modification of code needed
 	* Though some care needed with package versions
 * The CSF is ideal for bigger jobs
+
+## Getting help/training
+
+* [Research IT training courses](http://www.staffnet.manchester.ac.uk/staff-learning-and-development/academicandresearch/practical-skills-and-knowledge/it-skills/research-computing/research-courses/)
+  	* Next CSF course 20 November.
+	* Courses on Unix shell and Makefiles may also be of interest
+
+* Feel free to get in touch directly, or via the [Research IT request form](http://www.itservices.manchester.ac.uk/research/support/)
+  	* david.mawdsley@manchester.ac.uk
+	* pen.richardson@manchester.ac.uk
 
 
 
