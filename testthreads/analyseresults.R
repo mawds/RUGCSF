@@ -4,12 +4,17 @@ library(dplyr)
 library(stringr)
 
 source("loadJobStats.R")
-allResults <- bind_rows(loadJobStats("LaptopLinuxMSR.rda"),
-                        loadJobStats("LaptopLinuxStandardR.rda"),
-                        loadJobStats("csf_short.rda"),
-                        loadJobStats("csf.rda")
-)
+allResults <- bind_rows(
+                        loadJobStats("csfIvybridge.rda"),
+                         loadJobStats("csfSandybridge.rda"),
+                         loadJobStats("csfHaswell.rda"),
+                         loadJobStats("csfBroadwell.rda"),
+                         loadJobStats("csfWestmere.rda"))
 
-ggplot(allResults, aes(x = threads, y = time, colour = task)) + geom_point() + 
-  geom_line() + facet_wrap(~ infile) 
+allResults %>%  filter(infile != "csfWestmere.rda") %>% 
+  ggplot(aes(x = threads, y = time, colour = task)) + geom_point() + 
+  geom_line() + facet_wrap(~ infile) + scale_x_continuous(limits = c(1,8)) +
+  scale_y_continuous(limits = c(0,15))
   
+allResults %>% filter(infile == "csfIvybridge.rda") %>% ggplot( aes(x = threads, y = time, colour = task)) + geom_point() + 
+  geom_line() + facet_wrap(~ infile) 
