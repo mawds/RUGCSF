@@ -157,9 +157,6 @@ One of us demos logging on, a job script and submitting it
 
 ## 
 
-Standard R results may not be reliable; didn't have the whole node
-These are currently being re-run
-
 ```{r, echo = FALSE, warning = FALSE}
 
 allResults <- bind_rows(
@@ -219,18 +216,6 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 
 ```
 
-## 
-
-```{r, echo = FALSE, warning = FALSE, eval = FALSE}
-
-
-allResults %>%  filter(infile != "csfWestmere.rda") %>% 
-  ggplot(aes(x = threads, y = time, colour = task)) + geom_point() + 
-  geom_line() + facet_wrap(~ infile) +
-  labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
-       title = "CSF architectures")
-
-```
 
 ## Setting the number of threads
 
