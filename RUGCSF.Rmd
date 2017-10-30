@@ -86,15 +86,36 @@ source("testthreads/loadJobStats.R")
 LaptopResults <- bind_rows(loadJobStats("testthreads/LaptopLinuxMSR.rda"),
                         loadJobStats("testthreads/LaptopLinuxStandardR.rda"))
 
+symboffset <- 16
+provlevels <- 16:(length(levels(LaptopResults$RProvider)) + symboffset - 1)
+names(provlevels) <- levels(LaptopResults$RProvider)
 # ggplot(LaptopResults, aes(x = threads, y = time, colour = task)) + geom_point() + 
-#   geom_line() + facet_wrap(~ infile) 
 
-LaptopResults %>% 
-  ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + geom_line() + 
-  coord_cartesian(xlim = c(0, 4)) +
+#   geom_line() + facet_wrap(~ infile) 
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+
+LaptopResults %>% filter(RProvider != "Microsoft") %>% 
+  ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider, label = RProvider)) + geom_point() + geom_line() + 
+  coord_cartesian(xlim = c(0, 4), ylim=c(0,65)) +
+  scale_shape_manual(values = provlevels) +
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "Laptop; standard vs MSR")
+```
 
+##
+
+```{r, echo = FALSE}
+
+
+LaptopResults %>%
+  ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider, label = RProvider)) + geom_point() + geom_line() + 
+  coord_cartesian(xlim = c(0, 4), ylim=c(0,65)) +
+  scale_shape_manual(values = provlevels) +
+  labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
+       title = "Laptop; standard vs MSR")
 ```
 
 ## 
