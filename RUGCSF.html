@@ -514,7 +514,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="https://mran.microsoft.com/open/">MS R Open</a> uses optimised versions of <a href="https://software.intel.com/en-us/mkl">BLAS and LAPACK</a>.
 <ul>
 <li>Typically quicker even on a single thread</li>
-<li>Even quicker if we use multiple threads</li>
+<li>(Usually) even quicker if we use multiple threads</li>
 </ul></li>
 <li>Speed up will depend on <em>what</em> you’re doing
 <ul>
@@ -613,7 +613,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h1>Setting the number of threads</h1>
 <ul>
 <li>Unclear why performance suffers if all cores used</li>
-<li>Little benefit in &gt; 8 cores anyway</li>
+<li>Little benefit in &gt; 8 cores</li>
 <li><code>setMKLthreads(&lt;n&gt;)</code> limits the number of threads used</li>
 <li>Defaults to whole node</li>
 <li>Less queuing time; easier to schedule jobs</li>

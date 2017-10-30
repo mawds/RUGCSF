@@ -54,7 +54,8 @@ make it quicker?)
   	* R will only use one of these by default
 * Two approaches to using more of them:
   	* Explicitly parallise code
-		* Not covering this in this talk
+		  * Not covering this in this talk
+		  
 	* *Use a version of R with libraries that use > 1 core*
 
 ## Microsoft R Open
@@ -62,7 +63,7 @@ make it quicker?)
 * [MS R Open](https://mran.microsoft.com/open/) uses optimised versions of
   [BLAS and LAPACK](https://software.intel.com/en-us/mkl).
   	* Typically quicker even on a single thread
-	* Even quicker if we use multiple threads
+	* (Usually) even quicker if we use multiple threads
 * Speed up will depend on _what_ you're doing
   	* Linear algebra 
 
@@ -234,7 +235,7 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 ## Setting the number of threads
 
 * Unclear why performance suffers if all cores used
-* Little benefit in > 8 cores anyway
+* Little benefit in > 8 cores 
   * `setMKLthreads(<n>)` limits the number of threads used
   * Defaults to whole node
   * Less queuing time; easier to schedule jobs
@@ -244,7 +245,6 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 * Take care not to "double parallise"
   	* Each processes spawned by `parallel` will spawn its own threads
 	* Experimentation will be needed to find the best balance between two approaches
-
 
 ## Conclusions
 
@@ -262,7 +262,7 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 
 * Feel free to get in touch directly, or via the [Research IT request form](http://www.itservices.manchester.ac.uk/research/support/)
   	* david.mawdsley@manchester.ac.uk
-	* pen.richardson@manchester.ac.uk
+  	* pen.richardson@manchester.ac.uk
 
 
 
