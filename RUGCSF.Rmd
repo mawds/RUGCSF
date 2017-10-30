@@ -231,13 +231,6 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
   	* Each processes spawned by `parallel` will spawn its own threads
 	* Experimentation will be needed to find the best balance between two approaches
 
-## Conclusions
-
-* Switching over to MS R Open can offer big speedups
-	* No modification of code needed
-	* Though some care needed with package versions
-* The CSF is ideal for bigger jobs
-  * Limit threads used for performance and scheduling reason
 
 ## Getting help/training
 
@@ -248,9 +241,11 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 * Feel free to get in touch directly, or via the [Research IT request form](http://www.itservices.manchester.ac.uk/research/support/)
   	* david.mawdsley@manchester.ac.uk
   	* pen.richardson@manchester.ac.uk
+  	
+## Conclusions
 
-
-
-
-
-
+* Switching over to MS R Open can offer big speedups
+	* No modification of code needed
+	* Though some care needed with package versions
+* The CSF is ideal for bigger jobs
+  * Limit threads used for performance and scheduling reasons
