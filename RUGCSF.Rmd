@@ -36,6 +36,18 @@ make it quicker?)
 * Profiling is a good starting point
 	  * [Built into R studio](https://rstudio.github.io/profvis/)
 
+## 
+
+![][Profile1]
+
+[Profile1]: Profile1.png
+
+##
+
+![][Profile2]
+
+[Profile2]: Profile2.png
+
 ##  Optimising *how* your code runs
 
 * Most PCs have 2, 4 or 8 cores.  
