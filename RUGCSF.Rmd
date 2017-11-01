@@ -162,14 +162,11 @@ LaptopResults %>%
   	* Limited free at the point of use availability
 * Has [several versions of standard R and MS R Open](http://ri.itservices.manchester.ac.uk/csf-apps/software/applications/r/) installed.
 
-## Pen's slides
+## Getting started on the CSF
 
-* Applying for an account
+* Applying for account
 * Training course
-* Using modules(?? - too much detail?)
-* Support
-* (Possibly job arrays? - too much detail?)
-* etc. 
+
 
 ## Using the CSF demo
 
@@ -194,12 +191,12 @@ allResults <- bind_rows(
                          loadJobStats("./testthreads/csfBaseR/csfWestmere.rda")
                         )
 
-allResults %>%  filter(infile != "csfWestmere.rda") %>% 
+allResults %>%  filter(infile == "csfSandybridge.rda") %>% 
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + 
   geom_line() + facet_wrap(~ infile) + scale_x_continuous(limits = c(0,8)) +
   scale_y_continuous(limits = c(0,60)) + 
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
-       title = "CSF architectures")
+       title = "CSF performance")
 
 ```
 
@@ -207,7 +204,7 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 
 
 ```{r, echo = FALSE, warning = FALSE}
-allResults %>%  filter(infile != "csfWestmere.rda") %>% 
+allResults %>%  filter(infile == "csfSandybridge.rda") %>% 
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + 
   geom_line() + facet_wrap(~ infile) +
   scale_y_continuous(limits = c(0,60)) + 
@@ -225,7 +222,7 @@ CSFBasetimes <- allResults %>%
   rename(basetime = time) %>% 
   select(task, basetime,infile)
 
-allResults %>%  filter(infile != "csfWestmere.rda") %>% 
+allResults %>%  filter(infile == "csfSandybridge.rda") %>% 
   filter(RProvider == "Microsoft") %>% 
   inner_join(CSFBasetimes, by = c("task", "infile")) %>% 
   mutate(speedup = basetime / time)  %>% 
@@ -242,9 +239,10 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 
 * Unclear why performance suffers if all cores used
 * Little benefit in > 8 cores 
-  * `setMKLthreads(<n>)` limits the number of threads used
-  * Defaults to whole node
-  * Less queuing time; easier to schedule jobs
+  * You *must* use `setMKLthreads(<n>)` to match the number of cores requested in job script
+    * Less queuing time; easier to schedule jobs
+    
+    
 
 ## The parallel library and MS R Open
 
@@ -257,7 +255,8 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 
 * [Research IT training courses](http://www.staffnet.manchester.ac.uk/staff-learning-and-development/academicandresearch/practical-skills-and-knowledge/it-skills/research-computing/research-courses/)
   	* Next CSF course 20 November.
-	* Courses on Unix shell and Makefiles may also be of interest
+    * Next R courses 28 November and 5 December
+	  * Courses on Unix shell and Makefiles may also be of interest
 
 * Feel free to get in touch directly, or via the [Research IT request form](http://www.itservices.manchester.ac.uk/research/support/)
   	* david.mawdsley@manchester.ac.uk
@@ -268,5 +267,7 @@ allResults %>%  filter(infile != "csfWestmere.rda") %>%
 * Switching over to MS R Open can offer big speedups
 	* No modification of code needed
 	* Though some care needed with package versions
-* The CSF is ideal for bigger jobs
-  * Limit threads used for performance and scheduling reasons
+* The CSF is ideal for
+  * bigger jobs
+  * repeated jobs
+* Important to set the number of threads correctly
