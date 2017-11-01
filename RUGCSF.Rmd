@@ -170,7 +170,10 @@ LaptopResults %>%
 * [Training course](http://www.staffnet.manchester.ac.uk/staff-learning-and-development/academicandresearch/practical-skills-and-knowledge/it-skills/research-computing/research-courses/)
 
 
-* Demo
+* Demonstrations:
+  	1. [Running a job](http://ri.itservices.manchester.ac.uk/userdocs/sge/tutorial/) on multiple cores
+	2. Running the same job many times ([job arrays](http://ri.itservices.manchester.ac.uk/userdocs/sge/job-arrays/))
+
 
 ## 
 
