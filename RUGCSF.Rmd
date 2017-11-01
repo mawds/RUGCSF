@@ -287,5 +287,5 @@ in your job submission script
 	  * Though some care needed with package versions
 * The CSF is ideal for
     * bigger jobs
-    * repeated jobs
+    * repeated jobs (using job arrays)
 * Important to set the number of threads correctly
