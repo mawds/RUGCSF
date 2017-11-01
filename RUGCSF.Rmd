@@ -101,6 +101,7 @@ LaptopResults %>% filter(RProvider != "Microsoft") %>%
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider, label = RProvider)) + geom_point() + geom_line() + 
   coord_cartesian(xlim = c(0, 4), ylim=c(0,65)) +
   scale_shape_manual(values = provlevels) +
+  scale_x_continuous(breaks = 1:4) + 
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "Laptop; standard vs MSR")
 ```
@@ -114,6 +115,7 @@ LaptopResults %>%
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider, label = RProvider)) + geom_point() + geom_line() + 
   coord_cartesian(xlim = c(0, 4), ylim=c(0,65)) +
   scale_shape_manual(values = provlevels) +
+  scale_x_continuous(breaks = 1:4) + 
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "Laptop; standard vs MSR")
 ```
@@ -190,7 +192,7 @@ allResults <- bind_rows(
 
 allResults %>%  filter(infile == "csfSandybridge.rda") %>% 
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + 
-  geom_line() + facet_wrap(~ infile) + scale_x_continuous(limits = c(0,8)) +
+  geom_line() + facet_wrap(~ infile) + scale_x_continuous(limits = c(0,8), breaks = 1:8) +
   scale_y_continuous(limits = c(0,60)) + 
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "CSF performance")
@@ -205,8 +207,9 @@ allResults %>%  filter(infile == "csfSandybridge.rda") %>%
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + 
   geom_line() + facet_wrap(~ infile) +
   scale_y_continuous(limits = c(0,60)) + 
+  scale_x_continuous(breaks = 1:12) + 
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
-       title = "CSF architectures")
+       title = "CSF performance")
 
 ```
 
@@ -239,7 +242,7 @@ allResults %>%  filter(infile == "csfSandybridge.rda") %>%
     * Less queuing time; easier to schedule jobs
 * Set cores required with
 ```
-#$ -pe smp.pe 16 
+#$ -pe smp.pe 8 
 ```
 in your job script
 * You *must* include the line:
@@ -274,9 +277,9 @@ in your job submission script
 ## Conclusions
 
 * Switching over to MS R Open can offer big speedups
-	* No modification of code needed
-	* Though some care needed with package versions
+  	* No modification of code needed
+	  * Though some care needed with package versions
 * The CSF is ideal for
-  * bigger jobs
-  * repeated jobs
+    * bigger jobs
+    * repeated jobs
 * Important to set the number of threads correctly
