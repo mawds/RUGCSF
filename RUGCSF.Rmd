@@ -277,6 +277,8 @@ in your job submission script
 * Feel free to get in touch directly, or via the [Research IT request form](http://www.itservices.manchester.ac.uk/research/support/)
   	* david.mawdsley@manchester.ac.uk
   	* pen.richardson@manchester.ac.uk
+
+* These slides are availabile at [https://mawds.github.io/RUGCSF/RUGCSF.html](https://mawds.github.io/RUGCSF/RUGCSF.html)
   	
 ## Conclusions
 
