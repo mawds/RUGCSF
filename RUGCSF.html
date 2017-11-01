@@ -585,13 +585,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="getting-started-on-the-csf" class="slide level2">
 <h1>Getting started on the CSF</h1>
 <ul>
-<li>Applying for account</li>
-<li>Training course</li>
+<li><a href="http://ri.itservices.manchester.ac.uk/csf/getting-started-on-the-csf/user-account/">Applying for an account</a></li>
+<li><p><a href="http://www.staffnet.manchester.ac.uk/staff-learning-and-development/academicandresearch/practical-skills-and-knowledge/it-skills/research-computing/research-courses/">Training course</a></p></li>
+<li><p>Demo</p></li>
 </ul>
-</section>
-<section id="using-the-csf-demo" class="slide level2">
-<h1>Using the CSF demo</h1>
-<p>One of us demos logging on, a job script and submitting it</p>
 </section>
 <section id="section-5" class="slide level2">
 <h1></h1>
@@ -608,12 +605,17 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="setting-the-number-of-threads" class="slide level2">
 <h1>Setting the number of threads</h1>
 <ul>
-<li>Unclear why performance suffers if all cores used</li>
-<li>Little benefit in &gt; 8 cores</li>
-<li>You <em>must</em> use <code>setMKLthreads(&lt;n&gt;)</code> to match the number of cores requested in job script
+<li>Unclear why performance suffers if all cores used
 <ul>
+<li>Little benefit in &gt; 8 cores</li>
 <li>Less queuing time; easier to schedule jobs</li>
 </ul></li>
+<li><p>Set cores required with</p>
+<pre><code>#$ -pe smp.pe 16 </code></pre>
+in your job script</li>
+<li><p>You <em>must</em> include the line:</p>
+<pre><code>export OMP_NUM_THREADS=$NSLOTS</code></pre>
+<p>in your job submission script</p></li>
 </ul>
 </section>
 <section id="the-parallel-library-and-ms-r-open" class="slide level2">
@@ -622,7 +624,9 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li>Take care not to “double parallise”
 <ul>
 <li>Each processes spawned by <code>parallel</code> will spawn its own threads</li>
-<li>Experimentation will be needed to find the best balance between two approaches</li>
+<li><p>can limit threads used by <em>each</em> process with</p>
+<pre><code>setMKLthreads(&lt;n&gt;)</code></pre></li>
+<li><p>Experimentation will be needed to find the best balance between the two approaches</p></li>
 </ul></li>
 </ul>
 </section>
@@ -632,9 +636,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="http://www.staffnet.manchester.ac.uk/staff-learning-and-development/academicandresearch/practical-skills-and-knowledge/it-skills/research-computing/research-courses/">Research IT training courses</a>
 <ul>
 <li>Next CSF course 20 November.</li>
-</ul></li>
-<li>R course TODO - link
-<ul>
+<li>Next R courses 28 November and 5 December</li>
 <li>Courses on Unix shell and Makefiles may also be of interest</li>
 </ul></li>
 <li>Feel free to get in touch directly, or via the <a href="http://www.itservices.manchester.ac.uk/research/support/">Research IT request form</a>

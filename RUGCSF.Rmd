@@ -164,14 +164,11 @@ LaptopResults %>%
 
 ## Getting started on the CSF
 
-* Applying for account
-* Training course
+* [Applying for an account](http://ri.itservices.manchester.ac.uk/csf/getting-started-on-the-csf/user-account/)
+* [Training course](http://www.staffnet.manchester.ac.uk/staff-learning-and-development/academicandresearch/practical-skills-and-knowledge/it-skills/research-computing/research-courses/)
 
 
-## Using the CSF demo
-
-One of us demos logging on, a job script and submitting it
-
+* Demo
 
 ## 
 
@@ -238,17 +235,29 @@ allResults %>%  filter(infile == "csfSandybridge.rda") %>%
 ## Setting the number of threads
 
 * Unclear why performance suffers if all cores used
-* Little benefit in > 8 cores 
-  * You *must* use `setMKLthreads(<n>)` to match the number of cores requested in job script
+    * Little benefit in > 8 cores 
     * Less queuing time; easier to schedule jobs
-    
+* Set cores required with
+```
+#$ -pe smp.pe 16 
+```
+in your job script
+* You *must* include the line:
+```
+export OMP_NUM_THREADS=$NSLOTS
+```
+in your job submission script
     
 
 ## The parallel library and MS R Open
 
 * Take care not to "double parallise"
   	* Each processes spawned by `parallel` will spawn its own threads
-	* Experimentation will be needed to find the best balance between two approaches
+  	* can limit threads used by _each_ process with
+  	```
+  	setMKLthreads(<n>)
+  	```
+	* Experimentation will be needed to find the best balance between the two approaches
 
 
 ## Getting help/training
