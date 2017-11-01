@@ -192,7 +192,7 @@ allResults <- bind_rows(
 
 allResults %>%  filter(infile == "csfSandybridge.rda") %>% 
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + 
-  geom_line() + facet_wrap(~ infile) + scale_x_continuous(limits = c(0,8), breaks = 1:8) +
+  geom_line() + facet_wrap(~ infile) + scale_x_continuous(limits = c(0,8), breaks = 1:12) +
   scale_y_continuous(limits = c(0,60)) + 
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "CSF performance")
