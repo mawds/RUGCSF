@@ -197,7 +197,7 @@ allResults %>%  filter(infile == "csfSandybridge.rda") %>%
   filter(quasithread <= 8) %>% 
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + 
   geom_line() + facet_wrap(~ infile) + scale_x_continuous(limits = c(0,12), breaks = 1:12) +
-  scale_y_continuous(limits = c(0,60)) + 
+#  scale_y_continuous(limits = c(0,80)) + 
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "CSF performance")
 
@@ -210,7 +210,7 @@ allResults %>%  filter(infile == "csfSandybridge.rda") %>%
 allResults %>%  filter(infile == "csfSandybridge.rda") %>% 
   ggplot(aes(x = quasithread, y = time, colour = task, shape = RProvider)) + geom_point() + 
   geom_line() + facet_wrap(~ infile) +
-  scale_y_continuous(limits = c(0,60)) + 
+#  scale_y_continuous(limits = c(0,80)) + 
   scale_x_continuous(breaks = 1:12) + 
   labs(x = "Threads", y = "Time (seconds)",  colour = "Task",
        title = "CSF performance")
