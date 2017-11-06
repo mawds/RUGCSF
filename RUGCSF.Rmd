@@ -78,6 +78,8 @@ Used the Revobenchmark in the [version.compare](https://github.com/andrie/versio
   * PCA
   * Linear Discriminant Analysis 
 
+(See [MS R Blog](https://mran.microsoft.com/documents/rro/multithread/) for more details)
+
 ## 
 
 ```{r, echo = FALSE}
